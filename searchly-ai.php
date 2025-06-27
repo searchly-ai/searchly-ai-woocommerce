@@ -10,6 +10,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require 'plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/searchly-ai/searchly-ai-woocommerce',
+	__FILE__,
+	'searchly-ai-woocommerce'
+);
+
+$myUpdateChecker->setBranch('main');
+
 class SearchlyAIPlugin
 {
     private $api_endpoint = 'https://staging.searchly-ai.com/api/v1';
