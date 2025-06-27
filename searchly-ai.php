@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Searchly AI
  * Description: Adds AI-powered semantic search to WooCommerce stores.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Searchly AI
  */
 
@@ -24,7 +24,7 @@ $myUpdateChecker->setBranch('main');
 
 class SearchlyAIPlugin
 {
-    private $api_endpoint = 'https://staging.searchly-ai.com/api/v1';
+    private $api_endpoint = 'https://api.searchly-ai.com/api/v1';
 
     public function __construct() 
     {
@@ -101,13 +101,12 @@ class SearchlyAIPlugin
         ]);
 
         if (is_wp_error($response)) {
-            wc_get_logger()->error("API error: " . $response->get_error_message());
             return;
         }
     
         $status_code = wp_remote_retrieve_response_code($response);
+
         if ($status_code !== 200) {
-            wc_get_logger()->error("API returned status code: " . $status_code);
             return;
         }
 
