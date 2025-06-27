@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Searchly AI
  * Description: Adds AI-powered semantic search to WooCommerce stores.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Searchly AI
  */
 
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 
 class SearchlyAIPlugin
 {
-    private $api_endpoint = 'https://app.searchly-ai.com/api/v1';
+    private $api_endpoint = 'https://staging.searchly-ai.com/api/v1';
 
     public function __construct() 
     {
@@ -61,11 +61,6 @@ class SearchlyAIPlugin
     {
 
         if (!$query->is_search() || !$query->is_main_query() || is_admin()) {
-            return;
-        }
-
-        if ($query->get('post_type') !== 'product' && 
-        (!isset($_GET['post_type']) || $_GET['post_type'] !== 'product')) {
             return;
         }
 
@@ -123,16 +118,7 @@ class SearchlyAIPlugin
 
     private function user_ip()
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            return $_SERVER['HTTP_CLIENT_IP'];
-        }
-
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            return trim($ipList[0]);
-        }
-
-        return $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+        return array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
     }
 }
 
